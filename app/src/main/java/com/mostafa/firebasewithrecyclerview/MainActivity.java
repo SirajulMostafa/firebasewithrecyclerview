@@ -5,6 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -60,5 +64,46 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStop();
         adapter.stopListening();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.searchmenu,menu);//xml file name
+        MenuItem menuItem = menu.findItem(R.id.search_id);
+        SearchView searchView = (SearchView)menuItem.getActionView();
+       searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+           @Override
+           public boolean onQueryTextSubmit(String s) {
+               searchProcessing(s);
+               return false;
+           }
+
+           @Override
+           public boolean onQueryTextChange(String s) {
+               searchProcessing(s);
+               return false;
+           }
+       });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void searchProcessing(String s) {
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(this));
+        FirebaseRecyclerOptions<Student> options = new FirebaseRecyclerOptions.Builder<Student>()
+                .setQuery(mbase.child("student").orderByChild("course").startAt(s).endAt(s+"\uf8ff"),Student.class)
+                .build();
+
+        // It is a class provide by the FirebaseUI to make a
+        // query in the database to fetch appropriate data
+//
+        // Connecting object of required Adapter class to
+        // the Adapter class itself
+        adapter = new MainAdapter(options);
+        // Connecting Adapter class with the Recycler view*/
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
+
+
     }
 }

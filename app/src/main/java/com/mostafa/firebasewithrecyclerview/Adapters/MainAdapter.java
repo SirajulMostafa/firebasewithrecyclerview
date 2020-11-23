@@ -19,7 +19,7 @@ import com.mostafa.firebasewithrecyclerview.R;
 
 import java.util.ArrayList;
 
-public class MainAdapter extends FirebaseRecyclerAdapter<Student,MainAdapter.viewHolder>  {
+public class MainAdapter extends FirebaseRecyclerAdapter<Student, MainAdapter.viewHolder> {
 
 
     /**
@@ -37,10 +37,11 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Student,MainAdapter.vie
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //parent,false use for recyclerview's unwanted gape
-        View  view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sample_mainfood ,parent ,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sample_mainfood, parent, false);
         return new viewHolder(view);
     }
-//viewHolder( view) call public class viewHolder extends RecyclerView.ViewHolder
+
+    //viewHolder( view) call public class viewHolder extends RecyclerView.ViewHolder
     @Override
     protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull Student model) {
 // Add firstname from model class (here
@@ -50,7 +51,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Student,MainAdapter.vie
         Glide.with(holder.image.getContext())
                 .load(model.getImage())
                 .centerCrop()//optional
-               .placeholder(R.drawable.loading_spinner)
+                .placeholder(R.drawable.loading_spinner)
                 .into(holder.image);
         holder.name.setText(model.getName());
         holder.course.setText(model.getCourse());
@@ -58,15 +59,16 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Student,MainAdapter.vie
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-//        String course,duration, name,image;
+        //        String course,duration, name,image;
         ImageView image;
-        TextView  course,duration,name;
+        TextView course, duration, name;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            image = (ImageView)itemView.findViewById(R.id.image);
-            course = (TextView)itemView.findViewById(R.id.txt_course);
+            image = (ImageView) itemView.findViewById(R.id.image);
+            course = (TextView) itemView.findViewById(R.id.txt_course);
             name = itemView.findViewById(R.id.name);
-            duration = (TextView)itemView.findViewById(R.id.txt_duration);
+            duration = (TextView) itemView.findViewById(R.id.txt_duration);
 
         }
     }
